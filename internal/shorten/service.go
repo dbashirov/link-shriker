@@ -25,7 +25,25 @@ func (s *Service) Shorten(ctx context.Context, input model.ShortenInput) (*model
 	// 1. Сгененировать сокращенный идентификатор
 	var (
 		id         = uuid.New().ID()
-		identifier = input.Identifier
+		identifier string
 	)
 
+	if input.Identifier == "" {
+		identifier = Shorten(id)
+	} else {
+		identifier = input.Identifier
+	}
+
+	// 2. Сохранить в хранилище
+	dbShortening := model.Shortening{
+		Identifier:  identifier,
+		OriginalURL: input.RawURL,
+	}
+
+	shortening, err := s.storage.Put(ctx, dbShortening)
+	if err != nil {
+		return nil, err
+	}
+
+	return shortening, nil
 }

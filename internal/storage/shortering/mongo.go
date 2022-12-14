@@ -1,4 +1,4 @@
-package shortering
+package shortening
 
 import (
 	"context"
