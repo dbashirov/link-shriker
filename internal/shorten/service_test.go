@@ -21,5 +21,6 @@ func TestSerivice_Shortne(t *testing.T) {
 		require.NoError(t, err)
 
 		assert.NotEmpty(t, shortening.Identifier)
+		assert.Equal(t, "https://www.google.com", shortening.OriginalURL)
 	})
 }
