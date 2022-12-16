@@ -7,6 +7,7 @@ import (
 	"github.com/dbashirov/link-shrinker/internal/model"
 	"github.com/dbashirov/link-shrinker/internal/shorten"
 	shortening "github.com/dbashirov/link-shrinker/internal/storage/shortering"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
@@ -18,5 +19,7 @@ func TestSerivice_Shortne(t *testing.T) {
 		)
 		shortening, err := svc.Shorten(context.Background(), input)
 		require.NoError(t, err)
+
+		assert.NotEmpty(t, shortening.Identifier)
 	})
 }
