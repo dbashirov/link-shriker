@@ -44,6 +44,18 @@ func TestSerivice_Shorten(t *testing.T) {
 
 	t.Run("returns error if identifier is already taken", func(t *testing.T) {
 		const identifier = "google"
-		var ()
+		var (
+			svc   = shorten.NewService(shortening.NewInMemory())
+			input = model.ShortenInput{
+				RawURL:     "https://www.google.com",
+				Identifier: identifier,
+			}
+		)
+		_, err := svc.Shorten(context.Background(), input)
+		require.NoError(t, err)
+
+		_, err = svc.Shorten(context.Background(), input)
+		require.ErrorIs(t, err, model.ErrIdentifierExists)
+
 	})
 }

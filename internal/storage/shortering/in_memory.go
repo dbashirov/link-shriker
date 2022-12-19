@@ -30,9 +30,26 @@ func (s *inMemory) Put(ctx context.Context, shortening model.Shortening) (*model
 }
 
 func (s *inMemory) Get(ctx context.Context, identifier string) (*model.Shortening, error) {
-	panic("implement me")
+	v, exists := s.m.Load(identifier)
+	if !exists {
+		return nil, model.ErrNotFound
+	}
+
+	shortening := v.(model.Shortening)
+	
+	return &shortening, nil
 }
 
 func (s *inMemory) IncrementVisits(ctx context.Context, identifier string) error {
-	panic("implement me")
+	v, exists := s.m.Load(identifier)
+	if !exists {
+		return model.ErrNotFound
+	}
+
+	shortening := v.(model.Shortening)
+	shortening.Visits++
+
+	s.m.Store(identifier, shortening)
+
+	return nil
 }

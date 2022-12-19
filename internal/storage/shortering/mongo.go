@@ -46,6 +46,24 @@ func (m *mgo) Put(ctx context.Context, shortening model.Shortening) (*model.Shor
 	return &shortening, nil
 }
 
+func (s *mgo) Get(ctx context.Context, identifier string) (*model.Shortening, error) {
+	var op = "shortening.mgo.get"
+
+	var shortening mgoShortening
+	if err := s.col().FindOne(ctx, bson.M{"_id": identifier}).Decode(&shortening); err != nil {
+		if err == mongo.ErrNoDocuments {
+			return nil, fmt.Errorf("%s: %w", op, model.ErrNotFound)
+		}
+		return nil, fmt.Errorf("%s: %w", op, err)
+	}
+
+	return modelShorteningFromMgo(shortening), nil
+}
+
+func (s *mgo) IncrementVisits(ctx context.Context, identifier string) error {
+	panic("implement me")
+}
+
 type mgoShortening struct {
 	Identifier  string    `bson:"_id"`
 	CreatedBy   string    `bson:"created_by"`

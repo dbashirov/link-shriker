@@ -1,6 +1,10 @@
 package shorten
 
-import "strings"
+import (
+	"strings"
+
+	"github.com/dbashirov/link-shrinker/internal/utils"
+)
 
 const alphabet = "123456789qwertyuiopasdfghjkzxcvbnmQWERTYUPASDFGHJKLZXCVBNM"
 
@@ -17,17 +21,11 @@ func Shorten(id uint32) string {
 		num /= alphabetLen
 	}
 
-	reverse(digits)
+	utils.Reverse(digits)
 
 	for _, digit := range digits {
 		builder.WriteString(string(alphabet[digit]))
 	}
 
 	return builder.String()
-}
-
-func reverse(s []uint32) {
-	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
-		s[i], s[j] = s[j], s[i]
-	}
 }
