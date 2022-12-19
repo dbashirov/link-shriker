@@ -50,6 +50,7 @@ func (s *mgo) Get(ctx context.Context, identifier string) (*model.Shortening, er
 	var op = "shortening.mgo.get"
 
 	var shortening mgoShortening
+
 	if err := s.col().FindOne(ctx, bson.M{"_id": identifier}).Decode(&shortening); err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, fmt.Errorf("%s: %w", op, model.ErrNotFound)
@@ -61,7 +62,21 @@ func (s *mgo) Get(ctx context.Context, identifier string) (*model.Shortening, er
 }
 
 func (s *mgo) IncrementVisits(ctx context.Context, identifier string) error {
-	panic("implement me")
+	const op = "shortening.mgo.IncrementVisits"
+
+	var (
+		filter = bson.M{"_id": identifier}
+		update = bson.M{
+			"$inc": bson.M{"visits": 1},
+			"$set": bson.M{"updated_at": time.Now().UTC()},
+		}
+	)
+
+	if _, err := s.col().UpdateOne(ctx, filter, update); err != nil {
+		return fmt.Errorf("%s: %w", op, err)
+	}
+
+	return nil
 }
 
 type mgoShortening struct {
