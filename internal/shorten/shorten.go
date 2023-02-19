@@ -1,6 +1,7 @@
 package shorten
 
 import (
+	"net/url"
 	"strings"
 
 	"github.com/dbashirov/link-shrinker/internal/utils"
@@ -28,4 +29,14 @@ func Shorten(id uint32) string {
 	}
 
 	return builder.String()
+}
+
+func PrependBaseURL(baseURL, identifier string) (string, error) {
+	parsed, err := url.Parse(baseURL)
+	if err != nil {
+		return "", err
+	}
+	parsed.Path = identifier
+
+	return parsed.String(), nil
 }

@@ -3,7 +3,11 @@ module github.com/dbashirov/link-shrinker
 go 1.18
 
 require (
+	github.com/go-playground/validator/v10 v10.11.1
+	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/golang-jwt/jwt/v4 v4.4.3
 	github.com/google/uuid v1.3.0
+	github.com/labstack/echo/v4 v4.9.1
 	github.com/stretchr/testify v1.8.1
 	go.mongodb.org/mongo-driver v1.11.0
 )
@@ -12,10 +16,8 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
-	github.com/go-playground/validator/v10 v10.11.1 // indirect
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
-	github.com/labstack/echo/v4 v4.9.1 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mattn/go-colorable v0.1.11 // indirect
